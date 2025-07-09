@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Cart | Laziz Khana{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4 text-center animate__animated animate__fadeInDown">Your Cart</h2>
+  {% if items %}
+  <form method="post" action="{% url 'apply_promo_code' %}" class="mb-3 animate__animated animate__fadeIn">
+    {% csrf_token %}
+    <div class="row g-2 align-items-end">
+      <div class="col-md-4">
+        <input type="text" name="promo_code" class="form-control" placeholder="Promo code" value="{{ promo_code }}">
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-info w-100" type="submit">Apply</button>
+      </div>
+    </div>
+  </form>
+  <div class="table-responsive animate__animated animate__fadeInUp">
+    <table class="table table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Item</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in items %}
+        <tr>
+          <td>{{ entry.item.name }}</td>
+          <td>৳{{ entry.item.price }}</td>
+          <td>
+            <form method="post" action="{% url 'update_cart' entry.item.pk %}">
+              {% csrf_token %}
+              <input type="number" name="quantity" value="{{ entry.quantity }}" min="1" class="form-control d-inline-block w-auto" style="width:70px;">
+              <button class="btn btn-sm btn-outline-primary ms-1" type="submit">Update</button>
+            </form>
+          </td>
+          <td>৳{{ entry.item_total }}</td>
+          <td>
+            <form method="post" action="{% url 'remove_from_cart' entry.item.pk %}">
+              {% csrf_token %}
+              <button class="btn btn-sm btn-danger" type="submit">Remove</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="text-end">
+    <p class="mb-1">Subtotal: <strong>৳{{ total }}</strong></p>
+    {% if discount and discount > 0 %}
+    <p class="mb-1 text-success">Discount: -৳{{ discount }}</p>
+    {% endif %}
+    <h4 class="mb-3">Grand Total: <span class="text-danger">৳{{ grand_total }}</span></h4>
+    <a href="{% url 'checkout' %}" class="btn btn-success btn-lg">Proceed to Checkout</a>
+  </div>
+  {% else %}
+  <div class="alert alert-warning text-center animate__animated animate__fadeIn">Your cart is empty.</div>
+  {% endif %}
+</div>
+{% endblock %} 

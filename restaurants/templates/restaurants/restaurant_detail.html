@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}{{ restaurant.name }} | Laziz Khana{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <div class="row mb-4 animate__animated animate__fadeInDown">
+    <div class="col-md-3">
+      {% if restaurant.logo %}
+      <img src="{{ restaurant.logo.url }}" class="img-fluid rounded shadow" alt="{{ restaurant.name }} logo">
+      {% else %}
+      <div class="bg-light d-flex align-items-center justify-content-center rounded shadow" style="height:150px;">
+        <span class="text-muted">No Image</span>
+      </div>
+      {% endif %}
+    </div>
+    <div class="col-md-9">
+      <h2>{{ restaurant.name }}</h2>
+      <p class="mb-1"><strong>Address:</strong> {{ restaurant.address }}</p>
+      <p class="mb-1"><strong>Cuisine:</strong> {{ restaurant.cuisine_type }}</p>
+      <p class="mb-1"><strong>Rating:</strong> <span class="badge bg-success">{{ restaurant.rating|floatformat:1 }}</span></p>
+      <p class="mb-1"><strong>Contact:</strong> {{ restaurant.contact }}</p>
+      <p class="mb-1"><strong>Operating Hours:</strong> {{ restaurant.operating_hours }}</p>
+      <p class="mb-1"><strong>Minimum Order:</strong> ৳{{ restaurant.minimum_order }}</p>
+    </div>
+  </div>
+  <h3 class="mb-3 animate__animated animate__fadeInLeft">Menu</h3>
+  <div class="row">
+    {% for category in categories %}
+    <div class="col-12 mb-3">
+      <h5 class="text-danger">{{ category.name }}</h5>
+      <div class="row g-3">
+        {% for item in category.items.all %}
+        <div class="col-md-4">
+          <div class="card h-100 shadow animate__animated animate__fadeInUp" style="transition: transform .2s;">
+            {% if item.image %}
+            <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}" style="height:140px;object-fit:cover;">
+            {% else %}
+            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height:140px;">
+              <span class="text-muted">No Image</span>
+            </div>
+            {% endif %}
+            <div class="card-body">
+              <h6 class="card-title">{{ item.name }}</h6>
+              <p class="card-text">{{ item.description|truncatewords:15 }}</p>
+              <p class="card-text">৳{{ item.price }} {% if item.variant %}<span class="badge bg-info">{{ item.variant }}</span>{% endif %}</p>
+              <button class="btn btn-success w-100 mt-2" disabled>Add to Cart (Coming Soon)</button>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+          <div class="alert alert-warning">No items in this category.</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %} 

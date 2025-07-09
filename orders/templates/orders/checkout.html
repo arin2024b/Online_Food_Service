@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Checkout | Laziz Khana{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4 text-center animate__animated animate__fadeInDown">Checkout</h2>
+  <form method="post" class="animate__animated animate__fadeInUp">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-7">
+        <h5>Delivery Address</h5>
+        {% if addresses %}
+        <select name="address" class="form-select mb-3" required>
+          {% for address in addresses %}
+          <option value="{{ address.pk }}">{{ address }}</option>
+          {% endfor %}
+        </select>
+        {% else %}
+        <div class="alert alert-warning">No address found. <a href="{% url 'add_address' %}">Add an address</a></div>
+        {% endif %}
+        <h5 class="mt-4">Order Items</h5>
+        <ul class="list-group mb-3">
+          {% for entry in items %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ entry.item.name }} <span>x{{ entry.quantity }}</span>
+            <span>৳{{ entry.item_total }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-5">
+        <div class="card shadow p-3">
+          <h5>Order Summary</h5>
+          <p>Subtotal: <strong>৳{{ total }}</strong></p>
+          {% if discount and discount > 0 %}
+          <p class="text-success">Discount: -৳{{ discount }}</p>
+          {% endif %}
+          <h4>Grand Total: <span class="text-danger">৳{{ grand_total }}</span></h4>
+          <button type="submit" class="btn btn-danger w-100 mt-3">Place Order</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %} 

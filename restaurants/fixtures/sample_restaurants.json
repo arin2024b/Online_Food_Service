@@ -1,0 +1,82 @@
+[
+  {
+    "model": "restaurants.restaurant",
+    "pk": 1,
+    "fields": {
+      "name": "Dhaka Biryani House",
+      "logo": "",
+      "address": "Gulshan, Dhaka",
+      "contact": "01711111111",
+      "operating_hours": "10:00 AM - 11:00 PM",
+      "delivery_radius": 5,
+      "minimum_order": "200.00",
+      "cuisine_type": "Bangladeshi",
+      "rating": 4.5,
+      "is_approved": true
+    }
+  },
+  {
+    "model": "restaurants.restaurant",
+    "pk": 2,
+    "fields": {
+      "name": "Spice of India",
+      "logo": "",
+      "address": "Banani, Dhaka",
+      "contact": "01712222222",
+      "operating_hours": "11:00 AM - 10:00 PM",
+      "delivery_radius": 6,
+      "minimum_order": "250.00",
+      "cuisine_type": "Indian",
+      "rating": 4.2,
+      "is_approved": true
+    }
+  },
+  {
+    "model": "restaurants.restaurant",
+    "pk": 3,
+    "fields": {
+      "name": "Dragon Express",
+      "logo": "",
+      "address": "Dhanmondi, Dhaka",
+      "contact": "01713333333",
+      "operating_hours": "12:00 PM - 11:30 PM",
+      "delivery_radius": 7,
+      "minimum_order": "300.00",
+      "cuisine_type": "Chinese",
+      "rating": 4.0,
+      "is_approved": true
+    }
+  },
+  {
+    "model": "restaurants.restaurant",
+    "pk": 4,
+    "fields": {
+      "name": "Burger Mania",
+      "logo": "",
+      "address": "Uttara, Dhaka",
+      "contact": "01714444444",
+      "operating_hours": "9:00 AM - 12:00 AM",
+      "delivery_radius": 8,
+      "minimum_order": "150.00",
+      "cuisine_type": "Fast Food",
+      "rating": 4.3,
+      "is_approved": true
+    }
+  },
+  {
+    "model": "restaurants.restaurant",
+    "pk": 5,
+    "fields": {
+      "name": "Sweet Treats",
+      "logo": "",
+      "address": "Mirpur, Dhaka",
+      "contact": "01715555555",
+      "operating_hours": "10:00 AM - 10:00 PM",
+      "delivery_radius": 5,
+      "minimum_order": "100.00",
+      "cuisine_type": "Desserts",
+      "rating": 4.7,
+      "is_approved": true
+    }
+  }
+] 

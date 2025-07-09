@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Order History | Laziz Khana{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4 text-center animate__animated animate__fadeInDown">My Orders</h2>
+  {% if orders %}
+  <div class="table-responsive animate__animated animate__fadeInUp">
+    <table class="table table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Order ID</th>
+          <th>Restaurant</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Total</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td>#{{ order.pk }}</td>
+          <td>{{ order.restaurant.name }}</td>
+          <td>{{ order.timestamp|date:'M d, Y H:i' }}</td>
+          <td><span class="badge bg-info">{{ order.get_status_display }}</span></td>
+          <td>৳{{ order.total }}</td>
+          <td>
+            <a href="{% url 'order_detail' order.pk %}" class="btn btn-sm btn-primary">Details</a>
+            {% if order.status == 'delivered' %}
+            <a href="{% url 'submit_review' order.pk %}" class="btn btn-sm btn-success">Review</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="alert alert-warning text-center animate__animated animate__fadeIn">No orders found.</div>
+  {% endif %}
+</div>
+{% endblock %} 
