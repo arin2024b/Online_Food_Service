@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,20 +8,163 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-      body { background: #fff8f0; }
-      .navbar { background: linear-gradient(90deg, #ff4e00 0%, #ec9f05 100%); }
-      .navbar-brand { font-weight: bold; font-size: 1.7rem; color: #fff !important; }
-      .nav-link, .navbar-text { color: #fff !important; }
-      .btn-danger, .btn-success, .btn-primary { border-radius: 20px; }
-      .card { border-radius: 18px; }
-      .btn:hover, .nav-link:hover { filter: brightness(1.1); box-shadow: 0 2px 8px #ff4e0033; }
+      html, body {
+        min-height: 100vh;
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        background: url('{% static "img/laziz_khana_logo.png" %}') no-repeat center center fixed;
+        background-size: cover;
+        position: relative;
+        transition: background 0.4s;
+      }
+      .bg-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(20, 20, 30, 0.65);
+        z-index: 0;
+        pointer-events: none;
+      }
+      .navbar {
+        background: rgba(30, 30, 40, 0.85);
+        box-shadow: 0 4px 32px 0 #ff4e0033, 0 1.5px 8px #ec9f0533;
+        backdrop-filter: blur(8px);
+        transition: background 0.3s;
+      }
+      .navbar-brand {
+        font-weight: bold;
+        font-size: 2rem;
+        color: #fff !important;
+        letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        text-shadow: 0 2px 12px #ff4e00cc, 0 1px 2px #fff8f0;
+        transition: font-size 0.3s;
+      }
+      .logo-icon {
+        width: 48px; height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 0 16px 4px #ff4e00cc, 0 0 8px 2px #fff8f0cc;
+        border: 2px solid #fff;
+        background: #fff8f0;
+        transition: box-shadow 0.3s, transform 0.2s, width 0.3s, height 0.3s;
+      }
+      .logo-icon:hover {
+        box-shadow: 0 0 32px 8px #ec9f05cc, 0 0 16px 4px #ff4e00cc;
+        transform: scale(1.08) rotate(-3deg);
+      }
+      .nav-link, .navbar-text {
+        color: #fff !important;
+        font-weight: 500;
+        text-shadow: 0 1px 8px #ff4e0033;
+        transition: color 0.2s, text-shadow 0.2s;
+      }
+      .nav-link:hover, .navbar-text:hover {
+        color: #ffecd2 !important;
+        text-shadow: 0 2px 16px #ff4e00cc, 0 1px 2px #fff8f0;
+      }
+      .btn-danger, .btn-success, .btn-primary {
+        border-radius: 20px;
+        box-shadow: 0 2px 12px #ff4e0033;
+        transition: box-shadow 0.2s, transform 0.2s;
+      }
+      .btn-danger:hover, .btn-success:hover, .btn-primary:hover {
+        box-shadow: 0 6px 32px #ec9f05cc, 0 2px 8px #ff4e0033;
+        transform: scale(1.05) translateY(-2px);
+      }
+      .card, .glass-card {
+        border-radius: 18px;
+        background: rgba(255,255,255,0.18);
+        box-shadow: 0 8px 32px 0 #ff4e0033, 0 1.5px 8px #ec9f0533;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,0.18);
+        transition: box-shadow 0.3s, transform 0.3s, background 0.3s;
+      }
+      .card:hover, .glass-card:hover {
+        box-shadow: 0 16px 48px 0 #ff4e00cc, 0 2px 12px #ec9f05cc;
+        transform: translateY(-6px) scale(1.03);
+      }
+      .footer {
+        position: fixed;
+        left: 0; right: 0; bottom: 0;
+        background: rgba(30, 30, 40, 0.85);
+        color: #fff;
+        text-align: center;
+        padding: 1rem 0 0.7rem 0;
+        font-size: 1.2rem;
+        font-family: 'Segoe Script', 'Brush Script MT', cursive, sans-serif;
+        letter-spacing: 1.5px;
+        z-index: 10;
+        box-shadow: 0 0 32px 8px #ff4e00cc, 0 0 16px 4px #ec9f05cc;
+        text-shadow: 0 2px 16px #ff4e00cc, 0 1px 2px #fff8f0;
+        border-top-left-radius: 24px;
+        border-top-right-radius: 24px;
+        animation: footerGlow 2.5s infinite alternate;
+      }
+      @keyframes footerGlow {
+        0% { box-shadow: 0 0 32px 8px #ff4e00cc, 0 0 16px 4px #ec9f05cc; }
+        100% { box-shadow: 0 0 48px 16px #ec9f05cc, 0 0 32px 8px #ff4e00cc; }
+      }
+      .container-fluid, .container {
+        position: relative;
+        z-index: 1;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        max-width: 100vw;
+      }
+      @media (max-width: 991px) {
+        .navbar-brand {
+          font-size: 1.3rem;
+        }
+        .logo-icon {
+          width: 36px; height: 36px;
+        }
+      }
+      @media (max-width: 767px) {
+        .navbar-brand {
+          font-size: 1.1rem;
+          gap: 0.4rem;
+        }
+        .logo-icon {
+          width: 28px; height: 28px;
+        }
+        .footer {
+          font-size: 1rem;
+          padding: 0.7rem 0 0.5rem 0;
+        }
+        .container-fluid, .container {
+          padding-left: 0.3rem;
+          padding-right: 0.3rem;
+        }
+      }
+      @media (max-width: 575px) {
+        .navbar-brand {
+          font-size: 0.95rem;
+        }
+        .logo-icon {
+          width: 22px; height: 22px;
+        }
+        .footer {
+          font-size: 0.9rem;
+          padding: 0.5rem 0 0.3rem 0;
+        }
+      }
     </style>
     {% block extra_head %}{% endblock %}
 </head>
 <body>
+<div class="bg-overlay"></div>
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
   <div class="container">
-    <a class="navbar-brand" href="/">Laziz Khana</a>
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <img src="{% static 'img/laziz_khana_logo.png' %}" alt="Laziz Khana Logo" class="logo-icon me-2 animate__animated animate__pulse animate__infinite">
+      Laziz Khana
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -29,7 +173,7 @@
         {% if user.is_authenticated %}
         <li class="nav-item d-flex align-items-center">
           {% if user.profile_picture %}
-            <img src="{{ user.profile_picture.url }}" alt="Profile" class="rounded-circle me-2" style="width:36px;height:36px;object-fit:cover;border:2px solid #fff;">
+            <img src="{{ user.profile_picture.url }}" alt="Profile" class="rounded-circle me-2" style="width:36px;height:36px;object-fit:cover;border:2px solid #fff;box-shadow:0 0 12px #ff4e00cc;">
           {% else %}
             <span class="me-2" style="font-size:1.7rem;line-height:1;vertical-align:middle;">👤</span>
           {% endif %}
@@ -52,8 +196,14 @@
       {% endfor %}
     </div>
   {% endif %}
-  {% block content %}{% endblock %}
+  <div class="main-content-responsive">
+    {% block content %}{% endblock %}
+  </div>
 </div>
+<footer class="footer">
+  <!--<img src="{% static 'img/laziz_khana_logo.png' %}" alt="Laziz Khana Logo" class="logo-icon me-2 animate__animated animate__pulse animate__infinite"> -->
+  Built by Arin Ahmed
+</footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 {% block extra_js %}{% endblock %}
 </body>

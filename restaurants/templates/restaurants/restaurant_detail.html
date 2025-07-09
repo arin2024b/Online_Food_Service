@@ -1,25 +1,225 @@
 {% extends 'base.html' %}
 {% block title %}{{ restaurant.name }} | Laziz Khana{% endblock %}
+{% block extra_head %}
+<style>
+  .main-content-responsive {
+    margin-bottom: 90px !important;
+  }
+  .restaurant-img-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 220px;
+    max-width: 350px;
+    width: 100%;
+    margin-bottom: 0;
+    padding-right: 0.5rem;
+  }
+  .restaurant-img {
+    width: 100%;
+    max-width: 320px;
+    min-width: 180px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 22px;
+    box-shadow: 0 4px 32px 0 #ff4e0033, 0 1.5px 8px #ec9f0533;
+    background: #fff8f0;
+    margin: 0 auto;
+    display: block;
+  }
+  .restaurant-info-glass {
+    background: rgba(30,30,40,0.72);
+    border-radius: 22px;
+    box-shadow: 0 4px 32px 0 #ff4e0033, 0 1.5px 8px #ec9f0533, 0 0 24px #ff4e00cc;
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255,255,255,0.18);
+    padding: 1.2rem 2rem 1.2rem 2rem;
+    color: #fff;
+    margin-bottom: 1.2rem;
+    margin-top: 0.5rem;
+    position: relative;
+    z-index: 2;
+    transition: box-shadow 0.3s, background 0.3s;
+    min-width: 220px;
+    width: 100%;
+  }
+  .restaurant-info-glass:hover {
+    box-shadow: 0 8px 48px 0 #ff4e00cc, 0 2px 12px #ec9f05cc, 0 0 32px #fff8f0cc;
+    background: rgba(30,30,40,0.85);
+  }
+  .restaurant-info-glass h2 {
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 0.7rem;
+    text-shadow: 0 2px 12px #ff4e00cc, 0 1px 2px #fff8f0;
+    letter-spacing: 1.5px;
+  }
+  .restaurant-info-glass .info-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.3rem;
+    font-size: 1.08rem;
+    color: #ffecd2;
+    font-weight: 500;
+  }
+  .restaurant-info-glass .info-row i {
+    color: #ec9f05;
+    font-size: 1.2rem;
+    margin-right: 0.3rem;
+  }
+  .restaurant-info-glass .badge {
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0.4em 0.8em;
+    border-radius: 12px;
+    box-shadow: 0 0 8px #17c964cc;
+    margin-left: 0.5rem;
+  }
+  .menu-card-footer {
+    background: rgba(30,30,40,0.55);
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    padding: 1rem 1rem 1.1rem 1rem;
+    box-shadow: 0 2px 24px #ff4e00cc, 0 1px 8px #ec9f05cc;
+    margin-top: 0;
+    position: relative;
+    z-index: 2;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-top: 2px solid #ff4e0044;
+  }
+  .add-to-cart-btn {
+    background: linear-gradient(90deg, #ff4e00 0%, #ec9f05 100%);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px #ff4e0033;
+    transition: box-shadow 0.2s, transform 0.2s, background 0.3s;
+    margin-top: 0.5rem;
+    opacity: 0.85;
+    font-size: 1.1rem;
+    padding: 0.7rem 0;
+  }
+  .add-to-cart-btn:hover, .add-to-cart-btn:focus {
+    background: linear-gradient(90deg, #ec9f05 0%, #ff4e00 100%);
+    color: #fff;
+    box-shadow: 0 6px 32px #ec9f05cc, 0 2px 8px #ff4e0033;
+    transform: scale(1.07) translateY(-2px);
+    outline: none;
+    opacity: 1;
+  }
+  .card-body.menu-item-body {
+    padding-bottom: 0.2rem;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .menu-item-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    color: #222;
+  }
+  .menu-item-desc {
+    font-size: 0.98rem;
+    color: #444;
+    margin-bottom: 0.4rem;
+    min-height: 32px;
+  }
+  .menu-item-price-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.2rem;
+  }
+  .menu-item-price {
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: #ff4e00;
+    letter-spacing: 0.5px;
+  }
+  .menu-item-variant {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #fff;
+    background: #17a2b8;
+    border-radius: 8px;
+    padding: 0.1rem 0.6rem;
+    margin-left: 0.2rem;
+  }
+  @media (max-width: 991px) {
+    .restaurant-info-glass {
+      padding: 1rem 1rem 1rem 1rem;
+      font-size: 1rem;
+    }
+    .restaurant-info-glass h2 {
+      font-size: 1.3rem;
+    }
+    .restaurant-img {
+      height: 150px;
+      max-width: 220px;
+    }
+  }
+  @media (max-width: 767px) {
+    .main-content-responsive {
+      margin-bottom: 110px !important;
+    }
+    .restaurant-info-glass {
+      padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+      font-size: 0.98rem;
+    }
+    .restaurant-info-glass h2 {
+      font-size: 1.1rem;
+    }
+    .restaurant-img-col {
+      max-width: 100%;
+      min-width: 120px;
+      padding-right: 0;
+      margin-bottom: 1rem;
+    }
+    .restaurant-img {
+      height: 120px;
+      max-width: 100%;
+      min-width: 80px;
+    }
+    .menu-card-footer {
+      padding: 0.7rem 0.5rem 0.8rem 0.5rem;
+      min-height: 60px;
+    }
+    .card-body.menu-item-body {
+      min-height: 100px;
+    }
+  }
+</style>
+{% endblock %}
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-4 main-content-responsive">
   <div class="row mb-4 animate__animated animate__fadeInDown">
-    <div class="col-md-3">
+    <div class="col-md-4 restaurant-img-col">
       {% if restaurant.logo %}
-      <img src="{{ restaurant.logo.url }}" class="img-fluid rounded shadow" alt="{{ restaurant.name }} logo">
+      <img src="{{ restaurant.logo.url }}" class="restaurant-img" alt="{{ restaurant.name }} logo">
       {% else %}
-      <div class="bg-light d-flex align-items-center justify-content-center rounded shadow" style="height:150px;">
+      <div class="bg-light d-flex align-items-center justify-content-center rounded shadow restaurant-img" style="height:200px;">
         <span class="text-muted">No Image</span>
       </div>
       {% endif %}
     </div>
-    <div class="col-md-9">
-      <h2>{{ restaurant.name }}</h2>
-      <p class="mb-1"><strong>Address:</strong> {{ restaurant.address }}</p>
-      <p class="mb-1"><strong>Cuisine:</strong> {{ restaurant.cuisine_type }}</p>
-      <p class="mb-1"><strong>Rating:</strong> <span class="badge bg-success">{{ restaurant.rating|floatformat:1 }}</span></p>
-      <p class="mb-1"><strong>Contact:</strong> {{ restaurant.contact }}</p>
-      <p class="mb-1"><strong>Operating Hours:</strong> {{ restaurant.operating_hours }}</p>
-      <p class="mb-1"><strong>Minimum Order:</strong> ৳{{ restaurant.minimum_order }}</p>
+    <div class="col-md-8 d-flex align-items-center">
+      <div class="restaurant-info-glass w-100">
+        <h2>{{ restaurant.name }}</h2>
+        <div class="info-row"><i class="bi bi-geo-alt"></i> <strong>Address:</strong> {{ restaurant.address }}</div>
+        <div class="info-row"><i class="bi bi-egg-fried"></i> <strong>Cuisine:</strong> {{ restaurant.cuisine_type }}</div>
+        <div class="info-row"><i class="bi bi-star-fill"></i> <strong>Rating:</strong> <span class="badge bg-success">{{ restaurant.rating|floatformat:1 }}</span></div>
+        <div class="info-row"><i class="bi bi-telephone"></i> <strong>Contact:</strong> {{ restaurant.contact }}</div>
+        <div class="info-row"><i class="bi bi-clock"></i> <strong>Operating Hours:</strong> {{ restaurant.operating_hours }}</div>
+        <div class="info-row"><i class="bi bi-cash"></i> <strong>Minimum Order:</strong> ৳{{ restaurant.minimum_order }}</div>
+      </div>
     </div>
   </div>
   <h3 class="mb-3 animate__animated animate__fadeInLeft">Menu</h3>
@@ -38,11 +238,16 @@
               <span class="text-muted">No Image</span>
             </div>
             {% endif %}
-            <div class="card-body">
-              <h6 class="card-title">{{ item.name }}</h6>
-              <p class="card-text">{{ item.description|truncatewords:15 }}</p>
-              <p class="card-text">৳{{ item.price }} {% if item.variant %}<span class="badge bg-info">{{ item.variant }}</span>{% endif %}</p>
-              <button class="btn btn-success w-100 mt-2" disabled>Add to Cart (Coming Soon)</button>
+            <div class="card-body menu-item-body">
+              <div class="menu-item-title">{{ item.name }}</div>
+              <div class="menu-item-desc">{{ item.description|truncatewords:15 }}</div>
+              <div class="menu-item-price-row">
+                <span class="menu-item-price">৳{{ item.price }}</span>
+                {% if item.variant %}<span class="menu-item-variant">{{ item.variant }}</span>{% endif %}
+              </div>
+            </div>
+            <div class="menu-card-footer">
+              <button class="add-to-cart-btn btn w-100 mt-2" disabled>Add to Cart (Coming Soon)</button>
             </div>
           </div>
         </div>

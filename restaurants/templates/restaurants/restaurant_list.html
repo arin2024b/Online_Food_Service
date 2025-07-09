@@ -1,13 +1,91 @@
 {% extends 'base.html' %}
 {% block title %}Restaurants | Laziz Khana{% endblock %}
+{% block extra_head %}
+<style>
+  .restaurant-heading {
+    font-weight: bold;
+    font-size: 2.2rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 4px 24px #000, 0 2px 8px #ff4e00cc;
+    background: rgba(30,30,40,0.55);
+    border-radius: 18px;
+    padding: 0.7rem 1.5rem 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+    box-shadow: 0 2px 24px #ff4e00cc, 0 1px 8px #ec9f05cc;
+    animation: headingGlow 2.5s infinite alternate;
+  }
+  .restaurant-heading::after {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 4px;
+    margin: 0.5rem auto 0 auto;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #ff4e00 0%, #ec9f05 100%);
+    box-shadow: 0 0 16px #ff4e00cc, 0 0 8px #ec9f05cc;
+    animation: underlineGlow 2s infinite alternate;
+  }
+  @keyframes headingGlow {
+    0% { box-shadow: 0 2px 24px #ff4e00cc, 0 1px 8px #ec9f05cc; }
+    100% { box-shadow: 0 6px 32px #ec9f05cc, 0 2px 12px #ff4e00cc; }
+  }
+  @keyframes underlineGlow {
+    0% { box-shadow: 0 0 8px #ff4e00cc; }
+    100% { box-shadow: 0 0 24px #ec9f05cc; }
+  }
+  .view-menu-btn {
+    background: linear-gradient(90deg, #ff4e00 0%, #ec9f05 100%);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px #ff4e0033;
+    transition: box-shadow 0.2s, transform 0.2s, background 0.3s;
+    margin-bottom: 0.5rem;
+  }
+  .view-menu-btn:hover, .view-menu-btn:focus {
+    background: linear-gradient(90deg, #ec9f05 0%, #ff4e00 100%);
+    color: #fff;
+    box-shadow: 0 6px 32px #ec9f05cc, 0 2px 8px #ff4e0033;
+    transform: scale(1.07) translateY(-2px);
+    outline: none;
+  }
+  @media (max-width: 767px) {
+    .restaurant-heading {
+      font-size: 1.3rem;
+      padding: 0.5rem 0.7rem 1rem 0.7rem;
+    }
+    .restaurant-heading::after {
+      width: 80%;
+      height: 3px;
+    }
+  }
+  @media (max-width: 575px) {
+    .restaurant-heading {
+      font-size: 1.05rem;
+      padding: 0.3rem 0.3rem 0.7rem 0.3rem;
+    }
+    .restaurant-heading::after {
+      width: 90%;
+      height: 2px;
+    }
+  }
+  .main-content-responsive {
+    margin-bottom: 90px !important;
+  }
+</style>
+{% endblock %}
 {% block content %}
-<div class="container mt-4">
-  <h2 class="mb-4 text-center animate__animated animate__fadeInDown">Find Restaurants Near You</h2>
+<div class="container mt-4 main-content-responsive">
+  <h2 class="restaurant-heading animate__animated animate__fadeInDown">Find Restaurants Near You</h2>
   <form method="get" class="row g-2 mb-4 animate__animated animate__fadeIn">
-    <div class="col-md-4">
+    <div class="col-12 col-md-4">
       <input type="text" name="q" class="form-control" placeholder="Search by name, address, or cuisine" value="{{ query }}">
     </div>
-    <div class="col-md-3">
+    <div class="col-12 col-md-3">
       <select name="cuisine" class="form-select">
         <option value="">All Cuisines</option>
         {% for c in cuisines %}
@@ -15,7 +93,7 @@
         {% endfor %}
       </select>
     </div>
-    <div class="col-md-3">
+    <div class="col-12 col-md-3">
       <select name="rating" class="form-select">
         <option value="">Any Rating</option>
         <option value="4" {% if selected_rating == '4' %}selected{% endif %}>4+ stars</option>
@@ -23,13 +101,13 @@
         <option value="2" {% if selected_rating == '2' %}selected{% endif %}>2+ stars</option>
       </select>
     </div>
-    <div class="col-md-2">
+    <div class="col-12 col-md-2">
       <button class="btn btn-danger w-100" type="submit">Search</button>
     </div>
   </form>
   <div class="row g-4">
     {% for restaurant in restaurants %}
-    <div class="col-md-4">
+    <div class="col-12 col-sm-6 col-lg-4">
       <div class="card h-100 shadow animate__animated animate__fadeInUp" style="transition: transform .2s;">
         {% if restaurant.logo %}
         <img src="{{ restaurant.logo.url }}" class="card-img-top" alt="{{ restaurant.name }} logo" style="height:180px;object-fit:cover;">
@@ -43,7 +121,7 @@
           <p class="card-text mb-1"><i class="bi bi-geo-alt"></i> {{ restaurant.address }}</p>
           <p class="card-text mb-1">Cuisine: {{ restaurant.cuisine_type }}</p>
           <p class="card-text mb-1">Rating: <span class="badge bg-success">{{ restaurant.rating|floatformat:1 }}</span></p>
-          <a href="{% url 'restaurant_detail' restaurant.pk %}" class="btn btn-primary w-100 mt-2">View Menu</a>
+          <a href="{% url 'restaurant_detail' restaurant.pk %}" class="view-menu-btn btn w-100 mt-2">View Menu</a>
         </div>
       </div>
     </div>
