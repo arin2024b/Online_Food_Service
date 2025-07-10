@@ -9,4 +9,9 @@ urlpatterns = [
     path('address/add/', views.add_address_view, name='add_address'),
     path('address/<int:pk>/edit/', views.edit_address_view, name='edit_address'),
     path('address/<int:pk>/delete/', views.delete_address_view, name='delete_address'),
+]
+
+urlpatterns += [
+    path('password-reset/', views.password_reset_request, name='password_reset_request'),
+    path('password-reset/confirm/', views.password_reset_confirm, name='password_reset_confirm'),
 ] 
