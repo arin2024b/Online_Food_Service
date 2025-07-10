@@ -116,6 +116,11 @@ def checkout_view(request):
     if request.method == 'POST':
         address_id = request.POST.get('address')
         address = get_object_or_404(Address, pk=address_id, user=request.user)
+        payment_method = request.POST.get('payment_method')
+        # Enforce COD condition
+        if payment_method == 'cod' and request.user.orders.count() < 2:
+            messages.error(request, 'Cash on Delivery is only available if you have 2 or more previous orders.')
+            return redirect('checkout')
         order = Order.objects.create(
             user=request.user,
             restaurant=restaurant,
@@ -123,6 +128,7 @@ def checkout_view(request):
             delivery_address=address,
             status='placed',
             promo_code=promo_obj if promo_obj else None,
+            payment_method=payment_method,
         )
         for entry in items:
             OrderItem.objects.create(

@@ -1,0 +1,8 @@
+<div class="card shadow p-3 mb-3" style="border-radius: 16px;">
+  <h5>Order Summary</h5>
+  <p>Subtotal: <strong>৳{{ total }}</strong></p>
+  {% if discount and discount > 0 %}
+  <p class="text-success">Discount: -৳{{ discount }}</p>
+  {% endif %}
+  <h4>Grand Total: <span class="text-danger">৳{{ grand_total }}</span></h4>
+</div> 

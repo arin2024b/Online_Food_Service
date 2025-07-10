@@ -1,44 +1,99 @@
 {% extends 'base.html' %}
 {% block title %}Checkout | Laziz Khana{% endblock %}
 {% block content %}
-<div class="container mt-4">
-  <h2 class="mb-4 text-center animate__animated animate__fadeInDown">Checkout</h2>
+<div class="container py-5">
   <form method="post" class="animate__animated animate__fadeInUp">
     {% csrf_token %}
-    <div class="row">
-      <div class="col-md-7">
-        <h5>Delivery Address</h5>
-        {% if addresses %}
-        <select name="address" class="form-select mb-3" required>
-          {% for address in addresses %}
-          <option value="{{ address.pk }}">{{ address }}</option>
-          {% endfor %}
-        </select>
-        {% else %}
-        <div class="alert alert-warning">No address found. <a href="{% url 'add_address' %}">Add an address</a></div>
-        {% endif %}
-        <h5 class="mt-4">Order Items</h5>
-        <ul class="list-group mb-3">
-          {% for entry in items %}
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            {{ entry.item.name }} <span>x{{ entry.quantity }}</span>
-            <span>৳{{ entry.item_total }}</span>
-          </li>
-          {% endfor %}
-        </ul>
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-7 col-md-12">
+        <div class="card shadow-lg p-4 animate__animated animate__fadeInLeft" style="border-radius: 18px;">
+          <h2 class="mb-4 text-center text-primary animate__animated animate__fadeInDown">Checkout</h2>
+          <h5 class="mb-3">Delivery Address</h5>
+          {% if addresses %}
+          <select name="address" class="form-select mb-3" required>
+            {% for address in addresses %}
+            <option value="{{ address.pk }}">{{ address }}</option>
+            {% endfor %}
+          </select>
+          {% else %}
+          <div class="alert alert-warning">No address found. <a href="{% url 'add_address' %}">Add an address</a></div>
+          {% endif %}
+          <h5 class="mt-4 mb-2">Order Items</h5>
+          <ul class="list-group mb-3">
+            {% for entry in items %}
+            <li class="list-group-item d-flex justify-content-between align-items-center bg-light mb-2 rounded shadow-sm">
+              <span>{{ entry.item.name }} <span class="badge bg-secondary ms-2">x{{ entry.quantity }}</span></span>
+              <span class="fw-bold text-success">৳{{ entry.item_total }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+          <div class="d-lg-none d-block mt-4">
+            {% include 'orders/checkout_summary.html' %}
+          </div>
+        </div>
       </div>
-      <div class="col-md-5">
-        <div class="card shadow p-3">
+      <div class="col-lg-5 col-md-12">
+        <div class="card shadow-lg p-4 animate__animated animate__fadeInRight" style="border-radius: 18px;">
           <h5>Order Summary</h5>
           <p>Subtotal: <strong>৳{{ total }}</strong></p>
           {% if discount and discount > 0 %}
           <p class="text-success">Discount: -৳{{ discount }}</p>
           {% endif %}
           <h4>Grand Total: <span class="text-danger">৳{{ grand_total }}</span></h4>
-          <button type="submit" class="btn btn-danger w-100 mt-3">Place Order</button>
+          <hr>
+          <h5 class="mb-2">Payment Method <span class="text-danger">*</span></h5>
+          <div class="mb-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="payment_method" id="bkash" value="bkash" required>
+              <label class="form-check-label" for="bkash">bKash</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="payment_method" id="nagad" value="nagad">
+              <label class="form-check-label" for="nagad">Nagad</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="payment_method" id="rocket" value="rocket">
+              <label class="form-check-label" for="rocket">Rocket</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="payment_method" id="upay" value="upay">
+              <label class="form-check-label" for="upay">Upay</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="payment_method" id="card" value="card">
+              <label class="form-check-label" for="card">International Card</label>
+            </div>
+            {% if user.orders.count >= 2 %}
+            <div class="form-check mt-2">
+              <input class="form-check-input" type="radio" name="payment_method" id="cod" value="cod">
+              <label class="form-check-label" for="cod">Cash on Delivery (Available for users with 2+ previous orders)</label>
+            </div>
+            {% endif %}
+          </div>
+          <button type="submit" class="btn btn-gradient w-100 mt-3">Place Order</button>
         </div>
       </div>
     </div>
   </form>
 </div>
+<style>
+.btn-gradient {
+  background: linear-gradient(90deg, #ff4e00 0%, #ec9f05 100%);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px #ff4e0033;
+  transition: box-shadow 0.2s, transform 0.2s, background 0.3s;
+}
+.btn-gradient:hover {
+  background: linear-gradient(90deg, #ec9f05 0%, #ff4e00 100%);
+  color: #fff;
+  box-shadow: 0 6px 32px #ec9f05cc, 0 2px 8px #ff4e0033;
+  transform: scale(1.05) translateY(-2px);
+}
+@media (max-width: 991px) {
+  .card { margin-bottom: 1.5rem; }
+}
+</style>
 {% endblock %} 

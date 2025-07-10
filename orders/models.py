@@ -31,6 +31,19 @@ class Order(models.Model):
     promo_code = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     estimated_delivery = models.DateTimeField(blank=True, null=True)
+    payment_method = models.CharField(
+        max_length=20,
+        choices=[
+            ('bkash', 'bKash'),
+            ('nagad', 'Nagad'),
+            ('rocket', 'Rocket'),
+            ('upay', 'Upay'),
+            ('card', 'International Card'),
+            ('cod', 'Cash on Delivery'),
+        ],
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return f"Order #{self.pk} by {self.user}"

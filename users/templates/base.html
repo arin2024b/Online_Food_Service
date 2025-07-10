@@ -206,6 +206,19 @@
   Built by Arin Ahmed
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Auto-hide Django alert messages after 5 seconds
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      document.querySelectorAll('.alert').forEach(function(alert) {
+        alert.classList.add('animate__fadeOutUp');
+        setTimeout(function() {
+          alert.style.display = 'none';
+        }, 800); // match animate.css duration
+      });
+    }, 5000);
+  });
+</script>
 {% block extra_js %}{% endblock %}
 </body>
 </html> 
